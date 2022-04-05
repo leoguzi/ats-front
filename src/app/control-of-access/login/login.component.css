@@ -1,0 +1,48 @@
+.container{
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  margin: 0 auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 350px;
+
+  background-color:#60e78b;
+  border-radius: 8px;
+}
+
+.form-title{
+  font-size: 32px;
+  margin-bottom: 15px;
+  color: #108071;
+}
+
+.form-field{
+  font-size: 22px;
+  border: none;
+  height: 45px;
+  width: 100%;
+  padding-left: 15px;
+  border-radius: 5px;
+  margin: 10px 0 10px 0;
+}
+.login-button{
+  color: white;
+  font-size: 22px;
+  height: 45px;
+  width: 100%;
+  background-color: #108071;
+  border: none;
+  border-radius: 5px;
+  margin: 10px 0 10px 0;
+}
+
+.warning{
+  color: darkred;
+}
+
+.form-link{
+  cursor: pointer;
+}

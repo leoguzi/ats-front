@@ -1,0 +1,49 @@
+<form class="container" (submit)="register()" [formGroup]="newUserForm">
+  <h1 class="form-title">Cadastro</h1>
+  <input formControlName="name" class="form-field" placeholder="Nome" />
+  <small
+    *ngIf="
+  newUserForm.get('name')?.errors?.['minlength'] ||
+  newUserForm.get('name')?.errors?.['required'] &&
+  newUserForm.get('name')?.['touched']
+"
+    class="warning"
+    >Nome muito curto!</small
+  >
+
+  <input formControlName="email" class="form-field" placeholder="E-mail" />
+  <small
+    *ngIf="
+      newUserForm.get('email')?.errors?.['email'] ||
+      newUserForm.get('email')?.errors?.['required'] &&
+      newUserForm.get('email')?.['touched']
+    "
+    class="warning"
+    >Digite um e-mail válido</small
+  >
+  <input
+    formControlName="password"
+    type="password"
+    class="form-field"
+    placeholder="Senha"
+  />
+  <small
+    *ngIf="
+    newUserForm.get('password')?.errors?.['minlength'] ||
+    newUserForm.get('password')?.errors?.['required'] &&
+    newUserForm.get('password')?.['touched']
+"
+    class="warning"
+    >Senha muito curta.</small
+  >
+  <label class="checkbox-label"
+    >Você é um recrutador? <input type="checkbox" formControlName="recruiter" />
+  </label>
+  <button [disabled]="newUserForm.invalid" class="login-button">
+    Cadastrar
+  </button>
+  <p>
+    Já possui conta?
+    <a class="form-link" [routerLink]="['']">Faça login!</a>
+  </p>
+</form>
