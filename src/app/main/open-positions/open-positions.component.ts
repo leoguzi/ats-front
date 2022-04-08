@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { PoTableColumn } from '@po-ui/ng-components';
-import Position from './position';
+import { PositionsService } from './positions.service';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { PoModalComponent, PoTableColumn } from '@po-ui/ng-components';
+import { Position, Positions } from './position';
 
 @Component({
   selector: 'app-open-positions',
@@ -8,7 +9,12 @@ import Position from './position';
   styleUrls: ['./open-positions.component.css'],
 })
 export class OpenPositionsComponent implements OnInit {
+  @ViewChild(PoModalComponent, { static: true }) poModal!: PoModalComponent;
+  positions: Positions = [];
+  isTableLoading = true;
   recruiter = true;
+  modalData = { title: '', description: '' };
+
   public readonly positionsTableColumns: Array<PoTableColumn> = [
     {
       property: 'title',
@@ -21,8 +27,8 @@ export class OpenPositionsComponent implements OnInit {
     },
     {
       property: 'numberOfCandidates',
-      label: 'Numero de inscritos',
-      type: 'number',
+      label: 'Inscritos',
+      type: 'string',
     },
     {
       property: 'actions',
@@ -38,6 +44,13 @@ export class OpenPositionsComponent implements OnInit {
           value: 'delete',
         },
         {
+          action: this.openModal.bind(this),
+          icon: 'po-icon-edit',
+          tooltip: 'Editar',
+
+          value: 'edit',
+        },
+        {
           action: this.apply.bind(this),
           icon: 'po-icon-plus-circle',
           tooltip: 'Candidatar-se',
@@ -48,45 +61,8 @@ export class OpenPositionsComponent implements OnInit {
     },
   ];
 
-  positions: Array<Position> = [
-    {
-      title: 'Analista de sistemas',
-      description: 'Cara que desenvolve sistemas',
-      numberOfCandidates: 2,
-      applyed: true,
-      actions: this.recruiter ? ['delete'] : ['apply'],
-    },
-    {
-      title: 'Cara do TI',
-      description: 'Pergunta se já abriu o chamado e conserta impressoras',
-      numberOfCandidates: 3,
-      applyed: false,
-      actions: this.recruiter ? ['delete'] : ['apply'],
-    },
-    {
-      title: 'Scrum Master',
-      description: 'Guardião da agilidade do time.',
-      applyed: true,
-      numberOfCandidates: 0,
-      actions: this.recruiter ? ['delete'] : ['apply'],
-    },
-    {
-      title: 'Estagiário',
-      description: 'Faz café',
-      numberOfCandidates: 5,
-      applyed: false,
-      actions: this.recruiter ? ['delete'] : ['apply'],
-    },
-    {
-      title: 'Auxiliar administrativo',
-      description: 'Faz absolutamente tudo o que for necessario',
-      applyed: false,
-      numberOfCandidates: 10,
-      actions: this.recruiter ? ['delete'] : ['apply'],
-    },
-  ];
+  constructor(private positionsService: PositionsService) {}
 
-  constructor() {}
   private delete(row: Position) {
     this.positions.splice(this.positions.indexOf(row), 1);
   }
@@ -99,5 +75,23 @@ export class OpenPositionsComponent implements OnInit {
   private isApplyed(row: Position) {
     return row.applyed ? 'color-07' : 'color-10';
   }
-  ngOnInit(): void {}
+
+  private openModal(row: Position) {
+    this.modalData = {
+      title: row.title,
+      description: row.description,
+    };
+    this.poModal.open();
+  }
+  ngOnInit(): void {
+    this.positionsService.getPositions().subscribe((positions: Positions) => {
+      this.positions = positions.map((position) => {
+        return {
+          ...position,
+          actions: this.recruiter ? ['delete', 'edit'] : ['apply'],
+        };
+      });
+      this.isTableLoading = false;
+    });
+  }
 }

@@ -1,19 +1,5 @@
 <po-page-default p-title="Cadastro de vaga">
-  <po-container [p-no-border]="true" class="po-xl-6 po-xl-6 po-md-6 po-sm-6">
-    <po-dynamic-form
-      [p-fields]="fields"
-      [p-value]="newPosition"
-    ></po-dynamic-form>
-    <div class="po-row">
-      <po-button
-        class="po-xl-6 po-xl-6 po-md-6 po-sm-6"
-        p-type="danger"
-        p-label="Limpar"
-      ></po-button>
-      <po-button
-        class="po-xl-6 po-xl-6 po-md-6 po-sm-6"
-        p-label="Cadastrar"
-      ></po-button>
-    </div>
-  </po-container>
+  <div class="po-xl-6 po-xl-6 po-md-6 po-sm-6 po-p-0">
+    <app-new-position-form></app-new-position-form>
+  </div>
 </po-page-default>

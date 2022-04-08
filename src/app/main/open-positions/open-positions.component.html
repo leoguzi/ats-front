@@ -2,5 +2,10 @@
   <po-table
     [p-columns]="positionsTableColumns"
     [p-items]="positions"
+    [p-loading]="isTableLoading"
+    [p-height]="450"
   ></po-table>
+  <po-modal
+    ><app-new-position-form [newPosition]="modalData"></app-new-position-form
+  ></po-modal>
 </po-page-list>
